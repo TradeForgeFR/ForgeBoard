@@ -131,10 +131,10 @@ namespace ForgeBoard.Views.Widgets
 
             BarsRequest.Request((request, errorCode, errorMessage) =>
             {
-                if(errorCode == ErrorCode.NoError)
+                if (errorCode == ErrorCode.NoError)
                 {
                     sparkChart.StockDatas.Clear();
-                    for (int i = 0; i < request.Bars.Count; i++)
+                    for (int i = 0; i < request.Bars.Count - 1; i++)
                     {
                         sparkChart.StockDatas.Add(new SparkChartPoint()
                         {
@@ -148,7 +148,7 @@ namespace ForgeBoard.Views.Widgets
                         sparkChart.DrawStockAreaChart();
                     });
 
-                    NinjaTraderInteractions.PrintToOutput(string.Format("Succesfully got the hsitorical data for {1}", _instrument.FullName));
+                    NinjaTraderInteractions.PrintToOutput(string.Format("Successfully got the historical data for {0}", _instrument.FullName));
                 }
                 else
                 {

@@ -97,7 +97,6 @@
                VerticalContentAlignment="Center"
                HorizontalAlignment="Center"
                Content="ACCOUNTS SUMMARY" 
-               FontSize="14" 
                FontWeight="Bold"/>
         <TextBlock Text="REALIZED PNL"
                    Grid.Row="1"
@@ -152,7 +151,6 @@
                VerticalContentAlignment="Center"
                HorizontalAlignment="Center"
                Content="ACCOUNTS DETAILS" 
-               FontSize="14" 
                FontWeight="Bold"/>
         <ItemsControl Grid.ColumnSpan="3"
                       Margin="3"
@@ -182,7 +180,7 @@
                                 FontSize="10"
                                 Style="{DynamicResource BorderButton}"
                                 Command="{Binding FlatCommand}"
-                                Content="Flat"/>
+                                Content="Flat acccount"/>
                         <ItemsControl Grid.Row="1"
                                       Margin="3"
                                       ItemsSource="{Binding Positions}">
@@ -261,13 +259,13 @@
                       Data="M11,17H4A2,2 0 0,1 2,15V3A2,2 0 0,1 4,1H16V3H4V15H11V13L15,16L11,19V17M19,21V7H8V13H6V7A2,2 0 0,1 8,5H19A2,2 0 0,1 21,7V21A2,2 0 0,1 19,23H8A2,2 0 0,1 6,21V19H8V21H19Z"/>
                 </Button>
                 <Button Style="{DynamicResource RoundButton}"
-                    Click="Button_Click"
-                    Margin="3"
-                    ToolTip="Extract to a window">
+                        Click="Button_Click"
+                        Margin="3"
+                        ToolTip="Extract to a window">
                     <Path Height="10"
-                      Stretch="Uniform"
-                      Fill="White"
-                      Data="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z"/>
+                          Stretch="Uniform"
+                          Fill="White"
+                          Data="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z"/>
                 </Button>
             </StackPanel>
         </Border>
