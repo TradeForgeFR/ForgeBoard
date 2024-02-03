@@ -28,7 +28,7 @@
         <Grid>
             <Border BorderThickness="0.7"
                     BorderBrush="#43717A"
-                    Background="#0A191C"
+                    Background="{DynamicResource TabBackground}"
                     MouseDown="mainBoder_MouseDown"
                     Name="mainBorder"
                     Margin="3"
@@ -36,18 +36,16 @@
                 <Border.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.Items>
-
                             <MenuItem Header="Change instrument"
-                                  Icon="💲"
-                                  Click="MenuItem_Click_1"/>
+                                      Icon="💲"
+                                      Click="MenuItem_Click_1"/>
                             <MenuItem Icon="⿻"
-                                  Name="extractBTN"
-                                  Header="Extract widget"
-                                  Click="MenuItem_Click_2"/>
+                                      Name="extractBTN"
+                                      Header="Extract widget"
+                                      Click="MenuItem_Click_2"/>
                             <MenuItem Header="Remove"
-                                  Name="removeBTN"
-                                  Icon="🗑️" 
-                                  Click="MenuItem_Click"/>
+                                      Name="removeBTN"
+                                      Icon="🗑️" />
                         </ContextMenu.Items>
                     </ContextMenu>
                 </Border.ContextMenu>
@@ -64,29 +62,31 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Border Background="#60A917"
-                        Grid.RowSpan="2"
-                        Margin="-0.7"
-                        BorderThickness="0.5"
-                        BorderBrush="#2D7600">
+                            Grid.RowSpan="2"
+                            Margin="-0.7"
+                            Name="bidBorder"
+                            BorderThickness="0.5"
+                            BorderBrush="#2D7600">
 
                     </Border>
                     <Border Background="#E51400"
-                        Margin="-0.7"
-                        Grid.RowSpan="2"                        
-                        BorderThickness="0.5"
-                        BorderBrush="#B20000"
-                        Grid.Column="87">
+                            Margin="-0.7"
+                            Name="askBorder"
+                            Grid.RowSpan="2"      
+                            BorderThickness="0.5"
+                            BorderBrush="#B20000"
+                            Grid.Column="87">
 
                     </Border>
                     <TextBlock Text="EUR/USD" 
-                           FontWeight="Bold"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Center"
-                           Foreground="White"
-                           Grid.ColumnSpan="5"
-                           Margin="0,2,0,0" 
-                           Name="instrumentName"
-                           FontSize="9"/>
+                               FontWeight="Bold"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource FontControlBrush}"
+                               Grid.ColumnSpan="5"
+                               Margin="0,2,0,0" 
+                               Name="instrumentName"
+                               FontSize="9"/>
 
                     <TextBlock VerticalAlignment="Center"
                            Grid.Column="1"         
@@ -94,32 +94,32 @@
                            Grid.Row="1"
                            Name="bid" 
                            HorizontalAlignment="Center"
-                           Foreground="White">edfrz</TextBlock>
+                            Foreground="{DynamicResource FontControlBrush}">Bid</TextBlock>
                     <Rectangle Grid.Column="2"
                            VerticalAlignment="Stretch"
-                           Fill="White"
+                           Fill="{DynamicResource FontControlBrush}"
                            Width="1"
                            Margin="0,2"
                            Grid.Row="1"/>
                     <TextBlock VerticalAlignment="Center"
-                           Grid.Row="1"
-                           Name="ask"
-                            Grid.Column="3"
-                           Margin="3,1"
-                           HorizontalAlignment="Center"
-                           Foreground="White">edfrz</TextBlock>
+                               Grid.Row="1"
+                               Name="ask"
+                               Grid.Column="3"
+                               Margin="3,1"
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource FontControlBrush}">Ask</TextBlock>
                 </Grid>
             </Border>
             <Border BorderThickness="0.7"
-                BorderBrush="#43717A"
-                Margin="3"
-                x:Name="selectionBorder"
-                Background="#0A191C"
-                Visibility="Collapsed" 
-                Padding="0">
+                    BorderBrush="#43717A"
+                    Margin="3"
+                    x:Name="selectionBorder"
+                    Background="#0A191C"
+                    Visibility="Collapsed" 
+                    Padding="0">
                 <t:InstrumentSelector Name="_instrumentSelector"
-                                  Margin="3"
-                                  InstrumentChanged="_instrumentSelector_InstrumentChanged"/>
+                                      Margin="3"
+                                      InstrumentChanged="_instrumentSelector_InstrumentChanged"/>
             </Border>
             <Popup StaysOpen="False"
                PopupAnimation="Slide"

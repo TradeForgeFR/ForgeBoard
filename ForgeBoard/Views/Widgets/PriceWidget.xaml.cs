@@ -1,5 +1,6 @@
 ﻿using ForgeBoard.Core;
 using NinjaTrader.Cbi;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -14,8 +15,9 @@ namespace ForgeBoard.Views.Widgets
     public partial class PriceWidget : UserControl
     {
         private double _last = double.NaN;
-        private System.Windows.Media.Brush up, down, neutral;
+        private System.Windows.Media.Brush up, down;
         private bool _subscribed = false;
+        private Instrument _instrument = null;
         public PriceWidget()
         {
             InitializeComponent();
@@ -25,23 +27,10 @@ namespace ForgeBoard.Views.Widgets
 
 
             Color baseColor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#60A917");
-            // Create a Color with 50% opacity
-            Color colorWithOpacity = Color.FromArgb(128, baseColor.R, baseColor.G, baseColor.B); // 128 for 50% opacity (ranges from 0 to 255)
-            // Create a SolidColorBrush with the color and opacity
-            up = new SolidColorBrush(colorWithOpacity);
+            up = new SolidColorBrush(baseColor);
 
-            baseColor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#B20000");
-            colorWithOpacity = Color.FromArgb(128, baseColor.R, baseColor.G, baseColor.B); // 128 for 50% opacity (ranges from 0 to 255)
-            down = new SolidColorBrush(colorWithOpacity);
-
-            baseColor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#0A191C"); 
-            neutral = new SolidColorBrush(baseColor);
-
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ForgeBoardInteractions.RemovedWidgetFromBar(this);
+            baseColor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E51400");
+            down = new SolidColorBrush(baseColor);
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
@@ -71,40 +60,50 @@ namespace ForgeBoard.Views.Widgets
         private void _instrumentSelector_InstrumentChanged(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // unsuscribe the old instrument
-            if (_subscribed)
-                _instrumentSelector.Instrument.MarketDataUpdate -= Instrument_MarketDataUpdate;
+            try
+            {
+                if (_subscribed && _instrument!= null)
+                    _instrument.MarketDataUpdate -= Instrument_MarketDataUpdate;
 
-            selectionBorder.Visibility = Visibility.Collapsed; 
+                _instrument = _instrumentSelector.Instrument;
+                selectionBorder.Visibility = Visibility.Collapsed;
 
-            this.instrumentName.Text = _instrumentSelector.Instrument.FullName;
+                this.instrumentName.Text = _instrument.FullName;
 
-            bid.Text = _instrumentSelector.Instrument.MarketData?.Bid?.Price.ToString();
-            ask.Text = _instrumentSelector.Instrument.MarketData?.Ask?.Price.ToString();
+               // bid.Text = _instrument.MasterInstrument.FormatPrice(_instrument.MarketData.Bid.Bid, false);
+               // ask.Text = _instrument.MasterInstrument.FormatPrice(_instrument.MarketData.Ask.Ask, false);
 
-            _instrumentSelector.Instrument.MarketDataUpdate += Instrument_MarketDataUpdate;
-            _subscribed = true;
+                _instrument.MarketDataUpdate += Instrument_MarketDataUpdate;
+                _subscribed = true;
+            }
+            catch(Exception ex)
+            {
+                NinjaTraderInteractions.PrintToOutput(ex.Message+Environment.NewLine+ex.Data+Environment.NewLine+ex.StackTrace+Environment.NewLine+ex.Source);
+            }
         }
 
         private void Instrument_MarketDataUpdate(object sender, NinjaTrader.Data.MarketDataEventArgs e)
         {
-            if(e.MarketDataType == NinjaTrader.Data.MarketDataType.Bid)
+            if(e.MarketDataType == NinjaTrader.Data.MarketDataType.Bid && e.Bid>0)
             {
-                bid.Text = e.Instrument.MasterInstrument.FormatPrice(e.Bid);
+                bid.Text = e.Instrument.MasterInstrument.FormatPrice(e.Bid, false);
             }
-            else if(e.MarketDataType == NinjaTrader.Data.MarketDataType.Ask)
+            else if(e.MarketDataType == NinjaTrader.Data.MarketDataType.Ask && e.Ask > 0)
             {
-                ask.Text = e.Instrument.MasterInstrument.FormatPrice(e.Ask);
+                ask.Text = e.Instrument.MasterInstrument.FormatPrice(e.Ask, false);
             }
             else if( e.MarketDataType == NinjaTrader.Data.MarketDataType.Last)
             {
-                if (e.Price > _last)
-                    mainBorder.Background = up;
-                else if (e.Price < _last)
-                    mainBorder.Background = down;
-                else
-                    mainBorder.Background = neutral;
-
-                _last = e.Price;
+                if(e.Price>= e.Ask)
+                {
+                    askBorder.Background = up;
+                    bidBorder.Background = up;
+                }
+                else if(e.Price<= e.Bid)
+                {
+                    askBorder.Background = down;
+                    bidBorder.Background = down;
+                } 
             }             
         }
           
@@ -125,8 +124,8 @@ namespace ForgeBoard.Views.Widgets
 
         public void Dispose()
         {
-            if (_subscribed)
-                _instrumentSelector.Instrument.MarketDataUpdate -= Instrument_MarketDataUpdate;
+            if (_subscribed && _instrument != null)
+                _instrument.MarketDataUpdate -= Instrument_MarketDataUpdate;
         }
     }
 }
