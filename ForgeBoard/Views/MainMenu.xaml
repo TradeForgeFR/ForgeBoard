@@ -117,7 +117,7 @@
         </Border>
         <Image Grid.Row="2"
                HorizontalAlignment="Right"
-               Height="15"
+               Height="20"
                Margin="3,1"
                Source="https://tradeforge.fr/wp-content/uploads/2023/12/logo3.png"/>
     </Grid>

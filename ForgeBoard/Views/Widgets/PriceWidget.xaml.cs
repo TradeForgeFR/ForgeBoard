@@ -98,11 +98,13 @@ namespace ForgeBoard.Views.Widgets
                 {
                     askBorder.Background = up;
                     bidBorder.Background = up;
+                    mainBoder.BorderBrush = up;
                 }
                 else if(e.Price<= e.Bid)
                 {
                     askBorder.Background = down;
                     bidBorder.Background = down;
+                    mainBoder.BorderBrush = down;
                 } 
             }             
         }
