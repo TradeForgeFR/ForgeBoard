@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForgeBoard", "ForgeBoard\ForgeBoard.csproj", "{44387377-FCA2-495F-89D1-B7965E67142F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForgeBoard.Core", "ForgeBoard.Core\ForgeBoard.Core.csproj", "{AB533FFB-1C9B-40B9-86B2-27448C12562E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44387377-FCA2-495F-89D1-B7965E67142F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44387377-FCA2-495F-89D1-B7965E67142F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44387377-FCA2-495F-89D1-B7965E67142F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44387377-FCA2-495F-89D1-B7965E67142F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB533FFB-1C9B-40B9-86B2-27448C12562E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB533FFB-1C9B-40B9-86B2-27448C12562E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB533FFB-1C9B-40B9-86B2-27448C12562E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB533FFB-1C9B-40B9-86B2-27448C12562E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E02988D1-6C8B-481B-8AF3-20705E2E2539}
+	EndGlobalSection
+EndGlobal
