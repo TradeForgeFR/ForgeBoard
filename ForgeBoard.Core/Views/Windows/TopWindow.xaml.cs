@@ -17,17 +17,6 @@ namespace ForgeBoard.Core.Views.Windows
         {
             this.DragMove();
         }
-
-        private void Window_MouseEnter(object sender, MouseEventArgs e)
-        {
-            header.Visibility= Visibility.Visible;
-        }
-
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-            header.Visibility = Visibility.Collapsed;
-        }
-
         private void Border_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             Close();
