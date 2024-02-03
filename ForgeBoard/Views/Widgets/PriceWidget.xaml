@@ -82,11 +82,13 @@
                     </Border>
                     <tools:SparkChart Grid.ColumnSpan="3"
                                       Margin="1"
+                                      Opacity="0.15"
+                                      Name="sparkChart"
                                       Grid.RowSpan="2"
                                       Foreground="{DynamicResource FontControlBrush}"
                                       Grid.Column="1"/>
                     <TextBlock Text="EUR/USD" 
-                               FontWeight="Bold"
+                               FontWeight="ExtraBold"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Center"
                                Foreground="{DynamicResource FontControlBrush}"
@@ -96,12 +98,13 @@
                                FontSize="9"/>
 
                     <TextBlock VerticalAlignment="Center"
-                           Grid.Column="1"         
-                           Margin="3,1"
-                           Grid.Row="1"
-                           Name="bid" 
-                           HorizontalAlignment="Center"
-                            Foreground="{DynamicResource FontControlBrush}">Bid</TextBlock>
+                               Grid.Column="1"         
+                               Margin="3,1"
+                               Grid.Row="1"
+                               Name="bid" 
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource FontControlBrush}">Bid</TextBlock>
                     <Rectangle Grid.Column="2"
                            VerticalAlignment="Stretch"
                            Fill="{DynamicResource FontControlBrush}"
@@ -111,6 +114,7 @@
                     <TextBlock VerticalAlignment="Center"
                                Grid.Row="1"
                                Name="ask"
+                               FontWeight="Bold"
                                Grid.Column="3"
                                Margin="3,1"
                                HorizontalAlignment="Center"

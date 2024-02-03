@@ -1,6 +1,9 @@
 ﻿using ForgeBoard.Core;
 using ForgeBoard.Core.Models;
+using ForgeBoard.Core.Views;
 using NinjaTrader.Cbi;
+using NinjaTrader.Data;
+using NinjaTrader.Gui.SuperDom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,6 +83,7 @@ namespace ForgeBoard.Views.Widgets
 
                 _instrument.MarketDataUpdate += Instrument_MarketDataUpdate;
                 _subscribed = true;
+                RequestBars();
             }
             catch (Exception ex)
             {
@@ -114,6 +118,44 @@ namespace ForgeBoard.Views.Widgets
             }
         }
 
+        private void RequestBars()
+        {
+            BarsPeriod bp = new BarsPeriod
+            {
+                MarketDataType = MarketDataType.Last,
+                BarsPeriodType = BarsPeriodType.Minute,
+                Value = 60
+            };
+            var BarsRequest = new BarsRequest(_instrument, 24);
+            BarsRequest.BarsPeriod = bp;
+
+            BarsRequest.Request((request, errorCode, errorMessage) =>
+            {
+                if(errorCode == ErrorCode.NoError)
+                {
+                    sparkChart.StockDatas.Clear();
+                    for (int i = 0; i < request.Bars.Count; i++)
+                    {
+                        sparkChart.StockDatas.Add(new SparkChartPoint()
+                        {
+                            Date = request.Bars.BarsSeries.GetTime(i),
+                            Price = request.Bars.BarsSeries.GetClose(i)
+                        });
+                    }
+
+                    ForgeBoardInteractions.BarDispatcher.Invoke((Action)delegate
+                    {
+                        sparkChart.DrawStockAreaChart();
+                    });
+
+                    NinjaTraderInteractions.PrintToOutput(string.Format("Succesfully got the hsitorical data for {1}", _instrument.FullName));
+                }
+                else
+                {
+                    NinjaTraderInteractions.PrintToOutput(errorMessage);
+                }
+            });
+        }
         private void mainBoder_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)

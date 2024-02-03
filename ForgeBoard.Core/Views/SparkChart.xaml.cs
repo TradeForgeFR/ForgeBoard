@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace ForgeBoard.Core.Views
@@ -13,11 +14,22 @@ namespace ForgeBoard.Core.Views
     /// </summary>
     public partial class SparkChart : UserControl
     {
-        public List<SparkChartPoint> StockDatas 
-        { get; set; }
+        private List<SparkChartPoint> _stockDatas = new List<SparkChartPoint>();
+        public List<SparkChartPoint> StockDatas
+        {
+            get 
+            { 
+                return _stockDatas;
+            }
+            set
+            { 
+                this._stockDatas = value;
+                this.DrawStockAreaChart();
+            }
+        }
         public SparkChart()
         {
-            InitializeComponent(); 
+            InitializeComponent();   
         }
 
         private void GenerateRandomStockData()
@@ -40,7 +52,7 @@ namespace ForgeBoard.Core.Views
             }
         }
 
-        private void DrawStockChart()
+        public void DrawStockChart()
         {
             if (StockDatas == null || StockDatas.Count < 2)
                 return;
@@ -72,15 +84,14 @@ namespace ForgeBoard.Core.Views
                     X2 = x2,
                     Y2 = y2,
                     Stroke = this.Foreground,
-                    StrokeThickness = 0.5,
-                    Opacity = 0.5
+                    StrokeThickness = 0.5
                 };
 
                 chartCanvas.Children.Add(line);
             }
         }
 
-        private void DrawStockAreaChart()
+        public void DrawStockAreaChart()
         {
             if (StockDatas == null || StockDatas.Count < 2)
                 return;
@@ -98,8 +109,7 @@ namespace ForgeBoard.Core.Views
             Polygon areaPolygon = new Polygon
             {
                 Stroke = this.Foreground,
-                StrokeThickness = 1,
-                Opacity = 0.15,
+                StrokeThickness = 0,
                 Fill = this.Foreground
             };
 
@@ -122,6 +132,16 @@ namespace ForgeBoard.Core.Views
         {
             GenerateRandomStockData();
             DrawStockAreaChart();
+        }
+
+        public new Brush Foreground
+        {
+            get { return (Brush)base.Foreground; }
+            set
+            {
+                base.Foreground = value;
+                DrawStockAreaChart();
+            }
         }
     }  
 }
