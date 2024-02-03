@@ -27,7 +27,17 @@ namespace NinjaTrader.Gui.NinjaScript
 		private bool _isTopBarCreated = false;
 		// Same as other NS objects. However there's a difference: this event could be called in any thread
 
-		protected override void OnStateChange()
+        public ForgeBoard()
+        {
+            Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+        }
+
+        private void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            NinjaTraderInteractions.PrintToOutput(e.Exception.Message + Environment.NewLine + e.Exception.Data + Environment.NewLine + e.Exception.StackTrace + Environment.NewLine + e.Exception.Source);
+        }
+
+        protected override void OnStateChange()
 		{
 			if (State == State.SetDefaults)
 			{

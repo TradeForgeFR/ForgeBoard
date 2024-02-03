@@ -1,10 +1,14 @@
 ﻿using ForgeBoard.Core;
+using ForgeBoard.Core.Models;
 using NinjaTrader.Cbi;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using Color = System.Windows.Media.Color;
 
 namespace ForgeBoard.Views.Widgets
@@ -18,6 +22,7 @@ namespace ForgeBoard.Views.Widgets
         private System.Windows.Media.Brush up, down;
         private bool _subscribed = false;
         private Instrument _instrument = null;
+        private List<SparkChartPoint> stockData;
         public PriceWidget()
         {
             InitializeComponent();
@@ -45,7 +50,7 @@ namespace ForgeBoard.Views.Widgets
             widget.extractBTN.IsEnabled = false;
             widget.SelectedInstrument = _instrumentSelector.Instrument;
             widget.mainBorder.Margin = new Thickness(0);
-            widget.selectionBorder.Margin = new Thickness(0); 
+            widget.selectionBorder.Margin = new Thickness(0);
 
             var wnd = ForgeBoardInteractions.ExtractToTopWindow(widget);
             wnd.Closing += (oo, ee) =>
@@ -54,7 +59,7 @@ namespace ForgeBoard.Views.Widgets
                 widget.Dispose();
             };
 
-            this.Visibility = Visibility.Collapsed; 
+            this.Visibility = Visibility.Collapsed;
         }
 
         private void _instrumentSelector_InstrumentChanged(object sender, System.ComponentModel.CancelEventArgs e)
@@ -62,7 +67,7 @@ namespace ForgeBoard.Views.Widgets
             // unsuscribe the old instrument
             try
             {
-                if (_subscribed && _instrument!= null)
+                if (_subscribed && _instrument != null)
                     _instrument.MarketDataUpdate -= Instrument_MarketDataUpdate;
 
                 _instrument = _instrumentSelector.Instrument;
@@ -70,64 +75,64 @@ namespace ForgeBoard.Views.Widgets
 
                 this.instrumentName.Text = _instrument.FullName;
 
-               // bid.Text = _instrument.MasterInstrument.FormatPrice(_instrument.MarketData.Bid.Bid, false);
-               // ask.Text = _instrument.MasterInstrument.FormatPrice(_instrument.MarketData.Ask.Ask, false);
+                // bid.Text = _instrument.MasterInstrument.FormatPrice(_instrument.MarketData.Bid.Bid, false);
+                // ask.Text = _instrument.MasterInstrument.FormatPrice(_instrument.MarketData.Ask.Ask, false);
 
                 _instrument.MarketDataUpdate += Instrument_MarketDataUpdate;
                 _subscribed = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                NinjaTraderInteractions.PrintToOutput(ex.Message+Environment.NewLine+ex.Data+Environment.NewLine+ex.StackTrace+Environment.NewLine+ex.Source);
+                NinjaTraderInteractions.PrintToOutput(ex.Message + Environment.NewLine + ex.Data + Environment.NewLine + ex.StackTrace + Environment.NewLine + ex.Source);
             }
         }
 
         private void Instrument_MarketDataUpdate(object sender, NinjaTrader.Data.MarketDataEventArgs e)
         {
-            if(e.MarketDataType == NinjaTrader.Data.MarketDataType.Bid && e.Bid>0)
+            if (e.MarketDataType == NinjaTrader.Data.MarketDataType.Bid && e.Bid > 0)
             {
                 bid.Text = e.Instrument.MasterInstrument.FormatPrice(e.Bid, false);
             }
-            else if(e.MarketDataType == NinjaTrader.Data.MarketDataType.Ask && e.Ask > 0)
+            else if (e.MarketDataType == NinjaTrader.Data.MarketDataType.Ask && e.Ask > 0)
             {
                 ask.Text = e.Instrument.MasterInstrument.FormatPrice(e.Ask, false);
             }
-            else if( e.MarketDataType == NinjaTrader.Data.MarketDataType.Last)
+            else if (e.MarketDataType == NinjaTrader.Data.MarketDataType.Last)
             {
-                if(e.Price>= e.Ask)
+                if (e.Price >= e.Ask)
                 {
                     askBorder.Background = up;
                     bidBorder.Background = up;
                     mainBoder.BorderBrush = up;
                 }
-                else if(e.Price<= e.Bid)
+                else if (e.Price <= e.Bid)
                 {
                     askBorder.Background = down;
                     bidBorder.Background = down;
                     mainBoder.BorderBrush = down;
-                } 
-            }             
+                }
+            }
         }
-          
+
         private void mainBoder_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)
-                return; 
+                return;
 
             tradingPopup.StaysOpen = true;
-            tradingPopup.IsOpen = true; 
+            tradingPopup.IsOpen = true;
         }
 
         public Instrument SelectedInstrument
         {
             get => _instrumentSelector.Instrument;
-            set=> _instrumentSelector.Instrument = value;
+            set => _instrumentSelector.Instrument = value;
         }
 
         public void Dispose()
         {
             if (_subscribed && _instrument != null)
                 _instrument.MarketDataUpdate -= Instrument_MarketDataUpdate;
-        }
+        }  
     }
 }
