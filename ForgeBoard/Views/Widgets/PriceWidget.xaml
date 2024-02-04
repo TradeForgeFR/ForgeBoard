@@ -88,7 +88,7 @@
                                       Grid.RowSpan="2"
                                       Foreground="{DynamicResource FontControlBrush}"
                                       Grid.Column="1"/>
-                    <TextBlock Text="{Binding Instrument.FullName}" 
+                    <TextBlock Text="{Binding Instrument.FullName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                FontWeight="ExtraBold"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Center"

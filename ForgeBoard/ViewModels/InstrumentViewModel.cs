@@ -13,12 +13,12 @@ namespace ForgeBoard.ViewModels
 {
     public class InstrumentViewModel : ViewModelBase
     {
-        private double _last = double.NaN;
-        private System.Windows.Media.Brush _upBrush, _donwBrush, _askBrush, _bidBrush;
+        private double _lastPrice = double.NaN;
+        private System.Windows.Media.Brush _upBrush, _donwBrush, _askBrush, _bidBrush, _lastBrush;
         private bool _subscribed = false;
         private Instrument _instrument = null;
         private List<SparkChartPoint> stockData;
-        private string _bid = "Bid", _ask = "Ask", _open, _high, _low;
+        private string _bid = "Bid", _ask = "Ask", _open, _high, _low, _last;
         private Visibility _selectionBorderVisibility = Visibility.Visible;
         public InstrumentViewModel()
         {
@@ -29,7 +29,6 @@ namespace ForgeBoard.ViewModels
             _donwBrush = new SolidColorBrush(baseColor);
         }
 
-      
         private void UpdateInstrument(Instrument instrument)
         {
             // unsuscribe the old instrument
@@ -113,6 +112,10 @@ namespace ForgeBoard.ViewModels
                     AskBrush = _donwBrush;
                     BidBrush = _donwBrush;
                 }
+
+                LastBrush = e.Price >= _lastPrice ? _upBrush : _donwBrush;
+                _lastPrice = e.Price;
+                Last = e.Instrument.MasterInstrument.FormatPrice(e.Price, false);
             }
             else if(e.MarketDataType == MarketDataType.Opening)
             {
@@ -175,6 +178,16 @@ namespace ForgeBoard.ViewModels
             }
         }
 
+        public string Last
+        {
+            get { return _last; }
+            set
+            {
+                _last = value;
+                OnPropertyChanged(nameof(Last));
+            }
+        }
+
         public string Low
         {
             get { return _low; }
@@ -215,6 +228,19 @@ namespace ForgeBoard.ViewModels
             {
                 _selectionBorderVisibility = value;
                 OnPropertyChanged(nameof(SelectionBorderVisbility));
+            }
+        }
+
+        public Brush LastBrush
+        {
+            get
+            {
+                return _lastBrush;
+            }
+            set
+            {
+                _lastBrush = value;
+                OnPropertyChanged(nameof(LastBrush));
             }
         }
 

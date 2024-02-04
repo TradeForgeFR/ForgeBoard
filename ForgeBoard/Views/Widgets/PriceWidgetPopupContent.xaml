@@ -5,29 +5,72 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ForgeBoard.Views.Widgets"
              mc:Ignorable="d" 
+             xmlns:t="clr-namespace:NinjaTrader.Gui.Tools;assembly=NinjaTrader.Gui" 
              xmlns:tools="clr-namespace:ForgeBoard.Core.Views;assembly=ForgeBoard.Core"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Border BorderBrush="#43717A"
+             MinWidth="250">
+    <UserControl.Resources>
+        <Style x:Key="BorderButton" 
+        TargetType="{x:Type Button}">
+            <Setter Property="Padding" 
+             Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderThickness="0.8"
+                                    CornerRadius="3"
+                                    Padding="15,2"
+                                    BorderBrush="{TemplateBinding BorderBrush}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Border BorderBrush="#113536"
             BorderThickness="0.8"
-            Padding="5"
-            Background="{DynamicResource TabBackground}">
+            Background="{DynamicResource BackgroundMainWindow}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            <Border Background="#112123" 
+                    Name="topBorder"
+                    Padding="3"
+                    Grid.ColumnSpan="4">
+                <TextBlock Foreground="White"  
+                           Grid.ColumnSpan="3"
+                           Margin="3"
+                           HorizontalAlignment="Center"
+                           FontWeight="Bold">
+                    <Run Text="{Binding Instrument.FullName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Run Text="SUMMARY"/>
+                </TextBlock>
+            </Border>
             <TextBlock Text="OPEN" 
+                       Grid.Row="1"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Foreground="{DynamicResource FontControlBrush}"
                        Margin="3" 
                        TextDecorations="Underline"/>
             <TextBlock Text="HIGH"
+                       Grid.Row="1"
                        Grid.Column="1"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
@@ -36,6 +79,15 @@
                        TextDecorations="Underline"/>
             <TextBlock Text="LOW" 
                        Grid.Column="2"
+                       Grid.Row="1"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FontControlBrush}"
+                       Margin="3" 
+                       TextDecorations="Underline"/>
+            <TextBlock Text="LAST" 
+                       Grid.Row="1"
+                       Grid.Column="3"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Foreground="{DynamicResource FontControlBrush}"
@@ -43,24 +95,66 @@
                        TextDecorations="Underline"/>
             <TextBlock Text="{Binding Open, UpdateSourceTrigger=PropertyChanged}" 
                        VerticalAlignment="Center"
-                       Grid.Row="1"
+                       Grid.Row="2"
                        HorizontalAlignment="Center"
                        Foreground="{DynamicResource FontControlBrush}"
                        Margin="3" />
             <TextBlock Text="{Binding High, UpdateSourceTrigger=PropertyChanged}" 
-            VerticalAlignment="Center"
-            Grid.Row="1"
+                       VerticalAlignment="Center"
+                       Grid.Row="2"
                        Grid.Column="1"
-            HorizontalAlignment="Center"
-            Foreground="{DynamicResource FontControlBrush}"
-            Margin="3" />
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FontControlBrush}"
+                       Margin="3" />
             <TextBlock Text="{Binding Low, UpdateSourceTrigger=PropertyChanged}" 
-            VerticalAlignment="Center"
-            Grid.Row="1"
+                       VerticalAlignment="Center"
+                       Grid.Row="2"
                        Grid.Column="2"
-            HorizontalAlignment="Center"
-            Foreground="{DynamicResource FontControlBrush}"
-            Margin="3" />
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FontControlBrush}"
+                       Margin="3" />
+            <Border Grid.Row="2"
+                    Margin="3"
+                    Grid.Column="3"
+                    Background="{Binding LastBrush}">
+                <TextBlock Text="{Binding Last, UpdateSourceTrigger=PropertyChanged}" 
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="3" />
+            </Border>
+            <Border Background="#112123" 
+                    Grid.Row="4"
+                    Padding="3"
+                    Grid.ColumnSpan="4">
+                <TextBlock Foreground="White"  
+                           Grid.ColumnSpan="3"
+                           Margin="3"
+                           Text="TRADING ACTIONS"
+                           HorizontalAlignment="Center"
+                           FontWeight="Bold"/>
+            </Border>
+            <Grid Grid.Row="5"
+                  Grid.ColumnSpan="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <t:AccountSelector  Margin="3"/>
+                <Button Margin="3"
+                        Style="{DynamicResource BorderButton}"
+                        Grid.Column="1"
+                        Background="#60A917"
+                        Foreground="White"
+                        Content="BUY MKT"/>
+                <Button Margin="3" 
+                        Background="#E51400"
+                        Foreground="White"
+                        Style="{DynamicResource BorderButton}"
+                        Grid.Column="2"
+                        Content="SELL MKT"/>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>
