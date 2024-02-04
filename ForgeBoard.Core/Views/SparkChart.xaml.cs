@@ -29,7 +29,9 @@ namespace ForgeBoard.Core.Views
         }
         public SparkChart()
         {
-            InitializeComponent();   
+            InitializeComponent();
+            GenerateRandomStockData();
+            DrawStockAreaChart();
         }
 
         private void GenerateRandomStockData()
@@ -127,13 +129,7 @@ namespace ForgeBoard.Core.Views
 
             chartCanvas.Children.Add(areaPolygon);
         }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            GenerateRandomStockData();
-            DrawStockAreaChart();
-        }
-
+          
         public new Brush Foreground
         {
             get { return (Brush)base.Foreground; }

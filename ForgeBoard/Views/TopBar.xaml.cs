@@ -14,7 +14,7 @@ namespace ForgeBoard.Views
     public partial class TopBar : Window
     {
         public WorkspaceOptions WorkspaceOptions { get; set; }
-
+        private RightBar _rightBar;
         internal static event ExitBarHandler OnExitBar;
         public TopBar()
         {
@@ -38,23 +38,29 @@ namespace ForgeBoard.Views
         { 
             OnExitBar -= TopBar_OnExitBar;
             AppBarFunctions.SetAppBar(this, ABEdge.None);
+
+            if (_rightBar != null)
+            {
+                AppBarFunctions.SetAppBar(_rightBar, ABEdge.None);
+                _rightBar.Close();
+            }
         }
 
         private void TopBar_Loaded(object sender, RoutedEventArgs e)
         {
             AppBarFunctions.SetAppBar(this, ABEdge.Top);
 
-            /*var test = new Window()
+            /*_rightBar = new RightBar()
             {
-                Width = 150
+                Width = 100
             };
-            test.Loaded += (ii, ee) =>
+            _rightBar.Loaded += (ii, ee) =>
             {
-                AppBarFunctions.SetAppBar(test, ABEdge.Left);
+                AppBarFunctions.SetAppBar(_rightBar, ABEdge.Right);
 
             };
-            test.Show();*/
-           
+            _rightBar.Show();
+           */
             NinjaTraderInteractions.Init();
         }
 

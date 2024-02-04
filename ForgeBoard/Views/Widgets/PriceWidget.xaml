@@ -63,7 +63,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                    
-                    <Border Background="#60A917"
+                    <Border Background="{Binding BidBrush, UpdateSourceTrigger=PropertyChanged}"
                             Grid.RowSpan="2"
                             Margin="-0.7"
                             Name="bidBorder"
@@ -71,7 +71,7 @@
                             BorderBrush="#2D7600">
 
                     </Border>
-                    <Border Background="#E51400"
+                    <Border Background="{Binding AskBrush, UpdateSourceTrigger=PropertyChanged}"
                             Margin="-0.7"
                             Name="askBorder"
                             Grid.RowSpan="2"      
@@ -80,14 +80,15 @@
                             Grid.Column="87">
 
                     </Border>
-                    <tools:SparkChart Grid.ColumnSpan="3"
+                    <ContentControl Grid.ColumnSpan="3"
+                                    Content="{Binding Chart}"
                                       Margin="1"
                                       Opacity="0.15"
                                       Name="sparkChart"
                                       Grid.RowSpan="2"
                                       Foreground="{DynamicResource FontControlBrush}"
                                       Grid.Column="1"/>
-                    <TextBlock Text="EUR/USD" 
+                    <TextBlock Text="{Binding Instrument.FullName}" 
                                FontWeight="ExtraBold"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Center"
@@ -103,8 +104,9 @@
                                Grid.Row="1"
                                Name="bid" 
                                FontWeight="Bold"
+                               Text="{Binding Bid, UpdateSourceTrigger=PropertyChanged}"
                                HorizontalAlignment="Center"
-                               Foreground="{DynamicResource FontControlBrush}">Bid</TextBlock>
+                               Foreground="{DynamicResource FontControlBrush}"/>
                     <Rectangle Grid.Column="2"
                            VerticalAlignment="Stretch"
                            Fill="{DynamicResource FontControlBrush}"
@@ -118,7 +120,8 @@
                                Grid.Column="3"
                                Margin="3,1"
                                HorizontalAlignment="Center"
-                               Foreground="{DynamicResource FontControlBrush}">Ask</TextBlock>
+                               Text="{Binding Ask, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{DynamicResource FontControlBrush}"/>
                 </Grid>
             </Border>
             <Border BorderThickness="0.7"
@@ -126,11 +129,11 @@
                     Margin="3"
                     x:Name="selectionBorder"
                     Background="#0A191C"
-                    Visibility="Collapsed" 
+                    Visibility="{Binding  SelectionBorderVisbility, UpdateSourceTrigger=PropertyChanged}" 
                     Padding="0">
                 <t:InstrumentSelector Name="_instrumentSelector"
                                       Margin="3"
-                                      InstrumentChanged="_instrumentSelector_InstrumentChanged"/>
+                                      Instrument="{Binding Instrument, Mode=TwoWay}"/>
             </Border>
             <Popup StaysOpen="False"
                PopupAnimation="Slide"
@@ -139,10 +142,7 @@
                AllowsTransparency="False" 
                Name="tradingPopup">
                 <Border Background="Red">
-                    <Grid>
-                        <Button Style="{StaticResource MainButtonStyle}"
-                                Margin="3">bhlmbhlib</Button>
-                    </Grid>
+                    <local:PriceWidgetPopupContent/>
                 </Border>
             </Popup>
         </Grid>

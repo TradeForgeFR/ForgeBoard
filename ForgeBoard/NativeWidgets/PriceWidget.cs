@@ -1,4 +1,5 @@
 ﻿using ForgeBoard.Core;
+using ForgeBoard.ViewModels;
 using ForgeBoard.Views.Widgets;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -29,12 +30,17 @@ namespace ForgeBoard.NativeWidgets
         public override void MenuClick()
         {
             // add the logic when the user click on the item from the main menu
-            _priceWidget = new ForgeBoard.Views.Widgets.PriceWidget();
+            var dataContext = new InstrumentViewModel();
+            _priceWidget = new ForgeBoard.Views.Widgets.PriceWidget()
+            {
+                DataContext = dataContext
+            };
+
             ForgeBoardInteractions.AddWidgetToBar(_priceWidget, string.Empty, false);
 
             _priceWidget.removeBTN.Click += (o, e) =>
             {
-                _priceWidget.Dispose();
+                dataContext.Dispose();
                 ForgeBoardInteractions.RemovedWidgetFromBar(_priceWidget);
             };
         }

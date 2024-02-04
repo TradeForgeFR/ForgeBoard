@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ForgeBoard.Views.Widgets"
              mc:Ignorable="d" 
+             xmlns:tools="clr-namespace:ForgeBoard.Core.Views;assembly=ForgeBoard.Core"
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderBrush="#43717A"
             BorderThickness="0.8"
             Padding="5"
             Background="#0A191C">
-        
+        <tools:SparkChart/>
     </Border>
 </UserControl>
