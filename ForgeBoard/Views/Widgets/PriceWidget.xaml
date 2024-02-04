@@ -61,15 +61,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
-                    </Grid.RowDefinitions>
-                   
+                    </Grid.RowDefinitions>                   
                     <Border Background="{Binding BidBrush, UpdateSourceTrigger=PropertyChanged}"
                             Grid.RowSpan="2"
                             Margin="-0.7"
                             Name="bidBorder"
                             BorderThickness="0.5"
                             BorderBrush="#2D7600">
-
                     </Border>
                     <Border Background="{Binding AskBrush, UpdateSourceTrigger=PropertyChanged}"
                             Margin="-0.7"
@@ -78,16 +76,15 @@
                             BorderThickness="0.5"
                             BorderBrush="#B20000"
                             Grid.Column="87">
-
                     </Border>
                     <ContentControl Grid.ColumnSpan="3"
                                     Content="{Binding Chart}"
-                                      Margin="1"
-                                      Opacity="0.15"
-                                      Name="sparkChart"
-                                      Grid.RowSpan="2"
-                                      Foreground="{DynamicResource FontControlBrush}"
-                                      Grid.Column="1"/>
+                                    Margin="1"
+                                    Opacity="0.18"
+                                    Name="sparkChart"
+                                    Grid.RowSpan="2"
+                                    Foreground="{DynamicResource FontControlBrush}"
+                                    Grid.Column="1"/>
                     <TextBlock Text="{Binding Instrument.FullName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                FontWeight="ExtraBold"
                                VerticalAlignment="Top"
@@ -108,11 +105,11 @@
                                HorizontalAlignment="Center"
                                Foreground="{DynamicResource FontControlBrush}"/>
                     <Rectangle Grid.Column="2"
-                           VerticalAlignment="Stretch"
-                           Fill="{DynamicResource FontControlBrush}"
-                           Width="1"
-                           Margin="0,2"
-                           Grid.Row="1"/>
+                               VerticalAlignment="Stretch"
+                               Fill="{DynamicResource FontControlBrush}"
+                               Width="1"
+                               Margin="0,2"
+                               Grid.Row="1"/>
                     <TextBlock VerticalAlignment="Center"
                                Grid.Row="1"
                                Name="ask"
@@ -136,11 +133,11 @@
                                       Instrument="{Binding Instrument, Mode=TwoWay}"/>
             </Border>
             <Popup StaysOpen="False"
-               PopupAnimation="Slide"
-               PlacementTarget="{Binding ElementName=mainBoder}"
-               Placement="Bottom"
-               AllowsTransparency="False" 
-               Name="tradingPopup">
+                   PopupAnimation="Slide"
+                   PlacementTarget="{Binding ElementName=mainBoder}"
+                   Placement="Bottom"
+                   AllowsTransparency="False" 
+                   Name="tradingPopup">
                 <Border Background="Red">
                     <local:PriceWidgetPopupContent/>
                 </Border>
