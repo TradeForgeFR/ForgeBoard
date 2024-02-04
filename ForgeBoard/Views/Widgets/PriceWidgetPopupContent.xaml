@@ -10,7 +10,57 @@
     <Border BorderBrush="#43717A"
             BorderThickness="0.8"
             Padding="5"
-            Background="#0A191C">
-        <tools:SparkChart/>
+            Background="{DynamicResource TabBackground}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="OPEN" 
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FontControlBrush}"
+                       Margin="3" 
+                       TextDecorations="Underline"/>
+            <TextBlock Text="HIGH"
+                       Grid.Column="1"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FontControlBrush}"
+                       Margin="3" 
+                       TextDecorations="Underline"/>
+            <TextBlock Text="LOW" 
+                       Grid.Column="2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FontControlBrush}"
+                       Margin="3" 
+                       TextDecorations="Underline"/>
+            <TextBlock Text="{Binding Open, UpdateSourceTrigger=PropertyChanged}" 
+                       VerticalAlignment="Center"
+                       Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FontControlBrush}"
+                       Margin="3" />
+            <TextBlock Text="{Binding High, UpdateSourceTrigger=PropertyChanged}" 
+            VerticalAlignment="Center"
+            Grid.Row="1"
+                       Grid.Column="1"
+            HorizontalAlignment="Center"
+            Foreground="{DynamicResource FontControlBrush}"
+            Margin="3" />
+            <TextBlock Text="{Binding Low, UpdateSourceTrigger=PropertyChanged}" 
+            VerticalAlignment="Center"
+            Grid.Row="1"
+                       Grid.Column="2"
+            HorizontalAlignment="Center"
+            Foreground="{DynamicResource FontControlBrush}"
+            Margin="3" />
+        </Grid>
     </Border>
 </UserControl>

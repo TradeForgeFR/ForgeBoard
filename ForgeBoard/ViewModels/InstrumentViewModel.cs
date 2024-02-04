@@ -18,7 +18,7 @@ namespace ForgeBoard.ViewModels
         private bool _subscribed = false;
         private Instrument _instrument = null;
         private List<SparkChartPoint> stockData;
-        private string _bid = "Bid", _ask = "Ask";
+        private string _bid = "Bid", _ask = "Ask", _open, _high, _low;
         private Visibility _selectionBorderVisibility = Visibility.Visible;
         public InstrumentViewModel()
         {
@@ -42,6 +42,7 @@ namespace ForgeBoard.ViewModels
                 SelectionBorderVisbility = Visibility.Collapsed;
 
                 _instrument.MarketDataUpdate += Instrument_MarketDataUpdate;
+                
                 _subscribed = true;
                 RequestBars();
             }
@@ -113,6 +114,18 @@ namespace ForgeBoard.ViewModels
                     BidBrush = _donwBrush;
                 }
             }
+            else if(e.MarketDataType == MarketDataType.Opening)
+            {
+                Open = e.Instrument.MasterInstrument.FormatPrice(e.Price, false);
+            }
+            else if(e.MarketDataType == MarketDataType.DailyHigh)
+            {
+                High = e.Instrument.MasterInstrument.FormatPrice(e.Price, false);
+            }
+            else if(e.MarketDataType == MarketDataType.DailyLow)
+            {
+                Low = e.Instrument.MasterInstrument.FormatPrice(e.Price, false);
+            }
         }
 
         public void Dispose()
@@ -142,6 +155,35 @@ namespace ForgeBoard.ViewModels
         }
 
         public SparkChart Chart { get; } = new SparkChart();
+        public string Open
+        {
+            get { return _open; }
+            set
+            {
+                _open = value;
+                OnPropertyChanged(nameof(Open));
+            }
+        }
+
+        public string High
+        {
+            get { return _high; }
+            set
+            {
+                _high = value;
+                OnPropertyChanged(nameof(High));
+            }
+        }
+
+        public string Low
+        {
+            get { return _low; }
+            set
+            {
+                _low = value;
+                OnPropertyChanged(nameof(Low));
+            }
+        }
 
         public string Bid
         {
