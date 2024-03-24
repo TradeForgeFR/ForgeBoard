@@ -126,5 +126,5 @@ namespace ForgeBoard.ViewModels
         public event AccountUpdatedHandler AccountUpdated;
     }
 
-    public delegate void AccountUpdatedHandler();
+    public delegate void AccountUpdatedHandler(); 
 }
