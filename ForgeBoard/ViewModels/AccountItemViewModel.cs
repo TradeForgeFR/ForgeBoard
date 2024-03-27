@@ -106,7 +106,7 @@ namespace ForgeBoard.ViewModels
             set
             {
                 _realizedPnl = value;
-                OnPropertyChanged(nameof(RealizedPnL));
+                OnPropertyChanged(nameof(RealizedPnL)); 
             }
         }
 
