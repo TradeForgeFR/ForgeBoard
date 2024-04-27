@@ -99,6 +99,11 @@ namespace ForgeBoard.Views
         {
             this.accountPopup.IsOpen = true;
         }
+
+        private void newsButton_Click(object sender, RoutedEventArgs e)
+        {
+            newsPopup.IsOpen = true;
+        }
     }
     internal delegate void ExitBarHandler();
 }

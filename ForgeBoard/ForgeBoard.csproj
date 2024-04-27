@@ -103,6 +103,9 @@
     <Compile Include="Views\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NewsPopup.xaml.cs">
+      <DependentUpon>NewsPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RightBar.xaml.cs">
       <DependentUpon>RightBar.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewsPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

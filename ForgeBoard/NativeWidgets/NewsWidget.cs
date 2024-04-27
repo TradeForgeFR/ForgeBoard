@@ -1,4 +1,5 @@
 ﻿using ForgeBoard.Core;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -17,22 +18,22 @@ namespace ForgeBoard.NativeWidgets
 
         public override void DeInit()
         {
-            throw new System.NotImplementedException();
+           // throw new System.NotImplementedException();
         }
 
         public override void Init()
         {
-            throw new System.NotImplementedException();
+          //  throw new System.NotImplementedException();
         }
 
         public override void MenuClick()
         {
-            throw new System.NotImplementedException();
+            MessageBox.Show("Ce widget doit encore être codé");
         }
 
         public override void PinnedButtonClick(Button targetButton)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     }
 }

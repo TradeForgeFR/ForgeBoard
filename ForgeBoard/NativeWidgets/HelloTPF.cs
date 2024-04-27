@@ -36,7 +36,7 @@ namespace ForgeBoard.NativeWidgets
 
             ForgeBoardInteractions.AddWidgetToBar(label, string.Empty, false);
 
-            label.MouseDoubleClick += (o, e) =>
+            label.MouseDown += (o, e) =>
             {
                 ForgeBoardInteractions.RemovedWidgetFromBar(label);
             };

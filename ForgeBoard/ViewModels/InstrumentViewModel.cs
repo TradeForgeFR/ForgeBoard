@@ -4,6 +4,7 @@ using ForgeBoard.Core.ViewModels;
 using ForgeBoard.Core.Views;
 using NinjaTrader.Cbi;
 using NinjaTrader.Data;
+using NinjaTrader.Gui.NinjaScript.AtmStrategy;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -19,14 +20,28 @@ namespace ForgeBoard.ViewModels
         private Instrument _instrument = null;
         private List<SparkChartPoint> stockData;
         private string _bid = "Bid", _ask = "Ask", _open, _high, _low, _last;
+        private Account _account;
+        private int _lot = 1;
         private Visibility _selectionBorderVisibility = Visibility.Visible;
+        private AtmStrategySelector _strategySelector;
         public InstrumentViewModel()
         {
+            _strategySelector = new AtmStrategySelector();
             Color baseColor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#60A917");
             _upBrush = new SolidColorBrush(baseColor);
 
             baseColor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#E51400");
             _donwBrush = new SolidColorBrush(baseColor);
+
+            BuyCommand = new BasicCommand(() =>
+            {
+                SendMarketOrder(true);
+            });
+
+            SellCommand = new BasicCommand(() =>
+            {
+                SendMarketOrder(false);
+            });
         }
 
         private void UpdateInstrument(Instrument instrument)
@@ -49,8 +64,7 @@ namespace ForgeBoard.ViewModels
             {
                 NinjaTraderInteractions.PrintToOutput(ex.Message + Environment.NewLine + ex.Data + Environment.NewLine + ex.StackTrace + Environment.NewLine + ex.Source);
             }
-        }
-
+        } 
         private void RequestBars()
         {
             BarsPeriod bp = new BarsPeriod
@@ -89,7 +103,6 @@ namespace ForgeBoard.ViewModels
                 }
             });
         }
-
         private void Instrument_MarketDataUpdate(object sender, NinjaTrader.Data.MarketDataEventArgs e)
         {
             if (e.MarketDataType == NinjaTrader.Data.MarketDataType.Bid && e.Bid > 0)
@@ -139,6 +152,29 @@ namespace ForgeBoard.ViewModels
             NinjaTraderInteractions.PrintToOutput(string.Format("Disposing price widget for {0}", _instrument.FullName));
         }
 
+        private void SendMarketOrder(bool isBuyOrder)
+        {
+            if (Account != null && Instrument != null && Lot>=1)
+            {
+                var _mainOrder = Account.CreateOrder(Instrument,
+                                 isBuyOrder ? OrderAction.Buy : OrderAction.Sell,
+                                 OrderType.Market,
+                                 OrderEntry.Manual,
+                                 TimeInForce.Day,
+                                 Lot,
+                                 0,
+                                 0,
+                                 string.Empty,
+                                 "Entry",
+                                 NinjaTrader.Core.Globals.MaxDate,
+                                 null);
+
+                if (_strategySelector.SelectedAtmStrategy == null)
+                    Account.Submit(new[] { _mainOrder });
+                else
+                    NinjaTrader.NinjaScript.AtmStrategy.StartAtmStrategy(_strategySelector.SelectedAtmStrategy, _mainOrder);
+            }
+        }
         #region public fieals
 
         public Instrument Instrument
@@ -269,6 +305,39 @@ namespace ForgeBoard.ViewModels
                 OnPropertyChanged(nameof(BidBrush));
             }
         }
+
+        public Account Account
+        {
+            get
+            {
+                return _account;
+            }
+            set
+            {
+                _account = value;
+                OnPropertyChanged(nameof(Account));
+            }
+        }
+
+        public int Lot
+        {
+            get
+            {
+                return _lot;
+            }
+            set
+            {
+                _lot = value;
+                OnPropertyChanged(nameof(Lot));
+            }
+        }
+
+        public AtmStrategySelector AtmStrategy
+        {
+            get => _strategySelector;
+        }
+        public BasicCommand BuyCommand { get; private set; }
+        public BasicCommand SellCommand { get; private set; }
         #endregion
     }
 }

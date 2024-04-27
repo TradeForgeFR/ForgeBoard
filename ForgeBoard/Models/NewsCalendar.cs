@@ -1,16 +1,19 @@
 ﻿using ForgeBoard.Core;
+using ForgeBoard.Core.ViewModels;
 using Newtonsoft.Json;
 using NinjaTrader.Gui.Tools;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ForgeBoard.Models
 {
-    public class NewsCalendar
+    public class NewsCalendar : ViewModelBase
     {
-        public async Task<List<EconomicalNewItem>> GetNews()
+        public ObservableCollection<EconomicalNewItem> News { get; private set; } = new ObservableCollection<EconomicalNewItem>();
+        public async Task GetNews()
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -34,12 +37,19 @@ namespace ForgeBoard.Models
                         item.ConvertedTime = convertedTime; 
                     }
 
-                    return list;
+                    // ne jamais oublier le dispatcher sur un objet de type Observable collection
+                    ForgeBoardInteractions.BarDispatcher.Invoke((Action)delegate 
+                    {
+                        News = new ObservableCollection<EconomicalNewItem>(list);
+                        this.OnPropertyChanged(nameof(News));
+                    });
+
+                    // juste pour la curiosité
+                    NinjaTraderInteractions.PrintToOutput("News total = " + News.Count);
                 }
                 else
                 {
                     NinjaTraderInteractions.PrintToOutput("Error occured while getting the news list, infos : " + response.ReasonPhrase);
-                    return null;
                 }
             }
 

@@ -1,6 +1,7 @@
 ﻿using ForgeBoard.Core;
 using ForgeBoard.Core.ViewModels;
 using ForgeBoard.Models;
+using ForgeBoard.NativeWidgets;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,42 +12,32 @@ namespace ForgeBoard.ViewModels
     public class MainViewModel : ViewModelBase
     {
         #region private 
-        private NewsCalendar _newsCalendar = new NewsCalendar();
-        private GardeFou _gardeFou = new GardeFou();
+        private NewsCalendar _newsCalendar = new NewsCalendar(); 
         #endregion
         public AccountsViewModel AccountsViewModel { get; } = new AccountsViewModel();
         public ObservableCollection<FrameworkElement> Widgets { get; set; } = new ObservableCollection<FrameworkElement>();
-        public ObservableCollection<BarExtension> AvailableExtensions { get; private set; } = new ObservableCollection<BarExtension>();
+        public ObservableCollection<BarExtension> AvailableExtensions { get; private set; }  
         public void Init()
         {  
             // init the logic for the widgets and extensions
             ForgeBoardInteractions.AddWidgetToBarEvent += ForgeBoardInteractions_AddWidgetToBarEvent;
             ForgeBoardInteractions.RemoveWidgetFromBarEvent += ForgeBoardInteractions_RemoveWidgetFromBarEvent;
 
-            var widget = new ForgeBoard.NativeWidgets.PriceWidget();
-            AvailableExtensions.Add(widget);
-
-            var news = new ForgeBoard.NativeWidgets.NewsWidget();
-            AvailableExtensions.Add(news);
-
-            AvailableExtensions.Add(new ForgeBoard.NativeWidgets.HelloTPF());
+            // Create the available list from the static
+            AvailableExtensions = new ObservableCollection<BarExtension>()
+            {
+                { new PriceWidget() }, 
+                { new HelloTPF() }
+            };
 
             // init the accounts objects
             AccountsViewModel.Init();
 
+            // téléchargement des news éco
             Task.Run(async ()=>
             {
-                var list = await _newsCalendar.GetNews();
-                if(list != null)
-                {
-                    foreach(var item in list)
-                    {
-                        NinjaTraderInteractions.PrintToOutput(item.Name);
-                    }
-                }
+               await _newsCalendar.GetNews(); 
             });
-
-            _gardeFou.Init();
         }
 
         public void DeInit()
@@ -54,9 +45,10 @@ namespace ForgeBoard.ViewModels
             ForgeBoardInteractions.AddWidgetToBarEvent -= ForgeBoardInteractions_AddWidgetToBarEvent;
             ForgeBoardInteractions.RemoveWidgetFromBarEvent -= ForgeBoardInteractions_RemoveWidgetFromBarEvent;
 
-            AccountsViewModel.Dispose();
-            _gardeFou.Dispose();
+            AccountsViewModel.Dispose(); 
         }
+
+        // adding the widgets 
         private void ForgeBoardInteractions_RemoveWidgetFromBarEvent(FrameworkElement control)
         {
             Widgets.Remove(control);
@@ -65,6 +57,12 @@ namespace ForgeBoard.ViewModels
         private void ForgeBoardInteractions_AddWidgetToBarEvent(FrameworkElement control, string ProfileName, bool forceDisplay)
         {
             Widgets.Add(control);
-        } 
+        }
+
+        // todo ajouter une région pour le spublic fields
+        public NewsCalendar NewsCalendar
+        {
+            get => _newsCalendar;
+        }
     }
 }
