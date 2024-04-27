@@ -75,6 +75,7 @@
     <Compile Include="Models\EconomicalNewItem.cs" />
     <Compile Include="Models\GardeFou.cs" />
     <Compile Include="Models\NewsCalendar.cs" />
+    <Compile Include="NativeWidgets\HelloTPF.cs" />
     <Compile Include="NativeWidgets\NewsWidget.cs" />
     <Compile Include="NativeWidgets\PriceWidget.cs" />
     <Compile Include="NativeWidgets\Widgets.cs" />

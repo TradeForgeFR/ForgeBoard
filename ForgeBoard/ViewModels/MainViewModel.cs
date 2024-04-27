@@ -3,6 +3,7 @@ using ForgeBoard.Core.ViewModels;
 using ForgeBoard.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ForgeBoard.ViewModels
@@ -14,7 +15,7 @@ namespace ForgeBoard.ViewModels
         private GardeFou _gardeFou = new GardeFou();
         #endregion
         public AccountsViewModel AccountsViewModel { get; } = new AccountsViewModel();
-        public ObservableCollection<UserControl> Widgets { get; set; } = new ObservableCollection<UserControl>();
+        public ObservableCollection<FrameworkElement> Widgets { get; set; } = new ObservableCollection<FrameworkElement>();
         public ObservableCollection<BarExtension> AvailableExtensions { get; private set; } = new ObservableCollection<BarExtension>();
         public void Init()
         {  
@@ -27,6 +28,8 @@ namespace ForgeBoard.ViewModels
 
             var news = new ForgeBoard.NativeWidgets.NewsWidget();
             AvailableExtensions.Add(news);
+
+            AvailableExtensions.Add(new ForgeBoard.NativeWidgets.HelloTPF());
 
             // init the accounts objects
             AccountsViewModel.Init();
@@ -54,12 +57,12 @@ namespace ForgeBoard.ViewModels
             AccountsViewModel.Dispose();
             _gardeFou.Dispose();
         }
-        private void ForgeBoardInteractions_RemoveWidgetFromBarEvent(UserControl control)
+        private void ForgeBoardInteractions_RemoveWidgetFromBarEvent(FrameworkElement control)
         {
             Widgets.Remove(control);
         }
 
-        private void ForgeBoardInteractions_AddWidgetToBarEvent(UserControl control, string ProfileName, bool forceDisplay)
+        private void ForgeBoardInteractions_AddWidgetToBarEvent(FrameworkElement control, string ProfileName, bool forceDisplay)
         {
             Widgets.Add(control);
         } 

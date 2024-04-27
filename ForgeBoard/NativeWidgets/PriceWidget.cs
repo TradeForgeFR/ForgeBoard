@@ -19,12 +19,12 @@ namespace ForgeBoard.NativeWidgets
 
         public override void DeInit()
         {
-           
+
         }
 
         public override void Init()
         {
-             
+
         }
 
         public override void MenuClick()
@@ -47,7 +47,7 @@ namespace ForgeBoard.NativeWidgets
 
         public override void PinnedButtonClick(Button targetButton)
         {
-             // add the logic when the user click from the pinned button
+            // add the logic when the user click from the pinned button
         }
     }
 }
