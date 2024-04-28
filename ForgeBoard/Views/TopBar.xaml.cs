@@ -50,7 +50,7 @@ namespace ForgeBoard.Views
         {
             AppBarFunctions.SetAppBar(this, ABEdge.Top);
 
-            /*_rightBar = new RightBar()
+            _rightBar = new RightBar()
             {
                 Width = 100
             };
@@ -60,7 +60,7 @@ namespace ForgeBoard.Views
 
             };
             _rightBar.Show();
-           */
+           
             NinjaTraderInteractions.Init();
         }
 
