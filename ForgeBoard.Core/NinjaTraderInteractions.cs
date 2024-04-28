@@ -1,4 +1,5 @@
-﻿using NinjaTrader.Gui;
+﻿using NinjaTrader.Cbi;
+using NinjaTrader.Gui;
 using NinjaTrader.Gui.Tools;
 using NinjaTrader.NinjaScript;
 using System.Windows;
@@ -61,6 +62,30 @@ namespace ForgeBoard.Core
         public static void PrintToOutput(string message)
         {
             NinjaTrader.Code.Output.Process(message, PrintTo.OutputTab1);
-        } 
+        }
+
+        public static void SendMarketOrder(bool isBuyOrder, int size, Instrument instrument, Account account, AtmStrategy atm = null)
+        {
+            if (account != null && instrument != null && size >= 1)
+            {
+                var _mainOrder = account.CreateOrder(instrument,
+                                 isBuyOrder ? OrderAction.Buy : OrderAction.Sell,
+                                 OrderType.Market,
+                                 OrderEntry.Manual,
+                                 TimeInForce.Day,
+                                 size,
+                                 0,
+                                 0,
+                                 string.Empty,
+                                 "Entry",
+                                 NinjaTrader.Core.Globals.MaxDate,
+                                 null);
+
+                if (atm == null)
+                    account.Submit(new[] { _mainOrder });
+                else
+                    AtmStrategy.StartAtmStrategy(atm, _mainOrder);
+            }
+        }
     }
 }

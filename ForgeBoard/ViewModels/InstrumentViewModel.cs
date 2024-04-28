@@ -35,12 +35,12 @@ namespace ForgeBoard.ViewModels
 
             BuyCommand = new BasicCommand(() =>
             {
-                SendMarketOrder(true);
+                NinjaTraderInteractions.SendMarketOrder(true, _lot, _instrument, _account, _strategySelector.SelectedAtmStrategy);
             });
 
             SellCommand = new BasicCommand(() =>
             {
-                SendMarketOrder(false);
+                NinjaTraderInteractions.SendMarketOrder(false, _lot, _instrument, _account, _strategySelector.SelectedAtmStrategy);
             });
         }
 
@@ -150,31 +150,7 @@ namespace ForgeBoard.ViewModels
                 _instrument.MarketDataUpdate -= Instrument_MarketDataUpdate;
 
             NinjaTraderInteractions.PrintToOutput(string.Format("Disposing price widget for {0}", _instrument.FullName));
-        }
-
-        private void SendMarketOrder(bool isBuyOrder)
-        {
-            if (Account != null && Instrument != null && Lot>=1)
-            {
-                var _mainOrder = Account.CreateOrder(Instrument,
-                                 isBuyOrder ? OrderAction.Buy : OrderAction.Sell,
-                                 OrderType.Market,
-                                 OrderEntry.Manual,
-                                 TimeInForce.Day,
-                                 Lot,
-                                 0,
-                                 0,
-                                 string.Empty,
-                                 "Entry",
-                                 NinjaTrader.Core.Globals.MaxDate,
-                                 null);
-
-                if (_strategySelector.SelectedAtmStrategy == null)
-                    Account.Submit(new[] { _mainOrder });
-                else
-                    NinjaTrader.NinjaScript.AtmStrategy.StartAtmStrategy(_strategySelector.SelectedAtmStrategy, _mainOrder);
-            }
-        }
+        }  
         #region public fieals
 
         public Instrument Instrument
