@@ -35,7 +35,7 @@ namespace ForgeBoard.Models
                         var newDate = DateTime.Parse(item.Date);
 
                         DateTime convertedTime = TimeZoneInfo.ConvertTimeFromUtc(newDate, TimeZoneInfo.Local);
-                        item.ConvertedTime = convertedTime; 
+                        item.ConvertedTime = convertedTime;
                     }
 
                     // ne jamais oublier le dispatcher sur un objet de type Observable collection
