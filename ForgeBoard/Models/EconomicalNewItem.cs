@@ -29,5 +29,6 @@ namespace ForgeBoard.Models
 
         [DisplayName("Date")]
         public DateTime ConvertedTime { get; set; } 
+        public string HourStr { get => $"{ConvertedTime.Hour} H"; }
     }
 }
