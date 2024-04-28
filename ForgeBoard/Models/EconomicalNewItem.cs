@@ -1,5 +1,4 @@
-﻿using ForgeBoard.Core.ViewModels;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Windows.Media;

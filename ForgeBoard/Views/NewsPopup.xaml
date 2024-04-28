@@ -105,7 +105,7 @@
                             <Border Background="{DynamicResource TabBackground}"
                                     BorderBrush="{DynamicResource FontControlBrush}"
                                     BorderThickness="0.5" 
-                                    Margin="1.5,3"
+                                    Margin="1.5"
                                     CornerRadius="5">
                                 <Grid Width="595">
                                     <Grid.ColumnDefinitions>

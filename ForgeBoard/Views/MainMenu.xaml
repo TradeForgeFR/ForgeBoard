@@ -115,8 +115,8 @@
         </Border>
         <Image Grid.Row="2"
                HorizontalAlignment="Right"
-               Height="20"
+               Height="35"
                Margin="3,1"
-               Source="https://tradeforge.fr/wp-content/uploads/2023/12/logo3.png"/>
+               Source="https://tradeforge.fr/wp-content/uploads/2023/01/4.png"/>
     </Grid>
 </UserControl>
