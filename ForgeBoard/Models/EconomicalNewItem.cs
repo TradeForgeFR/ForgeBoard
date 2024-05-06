@@ -30,7 +30,10 @@ namespace ForgeBoard.Models
 
         [DisplayName("Date")]
         public DateTime ConvertedTime { get; set; } 
-        public string HourStr { get => $"{ConvertedTime.Hour} H"; }
+        public string HourStr
+        {
+            get {  if (ConvertedTime.CompareTo(DateTime.MinValue) == 0) return "Férié"; else return ConvertedTime.ToString("ddd d HH:mm"); }
+        }
 
         public Brush FirstImpactBrush { get => Impact >= 1 ? Brushes.Orange : Brushes.Transparent; }
 
